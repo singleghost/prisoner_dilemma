@@ -1,0 +1,55 @@
+<div class="layui-container">
+    <div class="layui-row">
+        <div class="layui-col-md6">
+            <form class="layui-form" action="/post_strategy">
+
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">策略代码</label>
+                    <div class="layui-input-block">
+                        <textarea name="code" placeholder="show me your code" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit lay-filter="form_code">立即提交</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="layui-col-md6" id="battle_result_area">比赛结果区域</div>
+    </div>
+
+</div>
+
+<script>
+    var form = layui.form;
+
+    //监听提交
+    form.on('submit(form_code)', function (data) {
+        //layer.msg(JSON.stringify(data.field));
+        try {
+            $.ajax({
+                url: "/post_strategy",
+                type: 'POST',
+                data: JSON.stringify(data.field),
+                //dataType: 'json',
+                contentType: 'application/json',
+                success: function (data, status, xhr) {
+                    console.log("ajax success");
+                    console.log(data);
+                    console.log(status);
+                    $("#battle_result_area").html(data);
+                },
+                error: function(xhr, error, exception) {
+                    alert(exception.toString());
+                }
+            });
+        } catch (e) {
+            console.log(e)
+        }
+        return false
+    }
+    )
+
+</script>
